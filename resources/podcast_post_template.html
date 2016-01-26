@@ -1,0 +1,9 @@
+I've just listened to this {{adjective}}
+<a href='{{all-podcasts-url}}'>{{all-podcasts-name}}</a> podcast
+{% if guest-name %}
+with <a href='{{guest-url}}'>{{guest-name}}</a>
+{% endif %}
+{% if topic %}
+talking about {{topic}}:
+{% endif %}
+{% include "list_template.html" %}
