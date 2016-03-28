@@ -1,2 +1,5 @@
-I've just {{verb}} this {{adjective}} {{thing}} by <a href='{{author-url}}'>{{author-name}}</a>:
+I've just {{verb}} this {{adjective}} {{thing}} by
+{% for author in authors %}
+<a href='{{author.url}}'>{{author.name}}</a>:
+{%endfor%}
 {% include "list_template.html" %}
