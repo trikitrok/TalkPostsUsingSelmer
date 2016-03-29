@@ -1,9 +1,12 @@
 (ns talk-post.core-test
-  (:require [midje.sweet :refer :all]
-            [talk-post.core :refer :all]))
+  (:require
+    [midje.sweet :refer :all]
+    [talk-post.core :refer :all]))
 
-(defn without-new-lines [s]
-  (clojure.string/replace s #"\n" ""))
+(defn without-new-lines-and-redundant-spaces [s]
+  (-> s
+      (clojure.string/replace #"\n" "")
+      (clojure.string/replace #"\s+" " ")))
 
 (facts
   "about posts"
@@ -19,7 +22,24 @@
               :url "http://www.decharlas.uji.es/es/despliegue-continuo-docker-ansible"
               :title "Despliegue continuo con Docker y Ansible")]
       (:title post) => "Interesting Talk: &quot;Despliegue continuo con Docker y Ansible&quot;"
-      (without-new-lines (:content post)) => "I've just watched this wonderful talk by<a href='http://nestorsalceda.com/blog/'>Nestor Salceda</a>:<ul>    <li>        <a href='http://www.decharlas.uji.es/es/despliegue-continuo-docker-ansible'>Despliegue continuo con Docker y Ansible</a>    </li></ul>"))
+      (without-new-lines-and-redundant-spaces
+        (:content post)) => "I've just watched this wonderful talk by <a href='http://nestorsalceda.com/blog/'>Nestor Salceda</a><ul> <li> <a href='http://www.decharlas.uji.es/es/despliegue-continuo-docker-ansible'>Despliegue continuo con Docker y Ansible</a> </li></ul>"))
+
+  (fact
+    "it generates a watched talk post with several authors"
+
+    (let
+      [post (generate-talk-post
+              :adjective "wonderful"
+              :authors [{:url "http://swannodette.github.io/"
+                         :name "David Nolen"}
+                        {:url "http://kovasboguta.com/"
+                         :name "Kovas Boguta"}]
+              :url "http://www.infoq.com/presentations/domain-driven-architecture"
+              :title "Demand-Driven Architecture")]
+      (:title post) => "Interesting Talk: &quot;Demand-Driven Architecture&quot;"
+      (without-new-lines-and-redundant-spaces
+        (:content post)) => "I've just watched this wonderful talk by <a href='http://swannodette.github.io/'>David Nolen</a> and <a href='http://kovasboguta.com/'>Kovas Boguta</a><ul> <li> <a href='http://www.infoq.com/presentations/domain-driven-architecture'>Demand-Driven Architecture</a> </li></ul>"))
 
   (fact
     "it generates a read paper post"
@@ -30,8 +50,9 @@
                             :name "Peter Naur"}]
                  :url "http://pages.cs.wisc.edu/~remzi/Naur.pdf"
                  :title "Programming as Theory Building")]
-      (:title post) =>"Interesting Paper: &quot;Programming as Theory Building&quot;"
-      (without-new-lines (:content post)) => "I've just read this great paper by<a href='https://en.wikipedia.org/wiki/Peter_Naur'>Peter Naur</a>:<ul>    <li>        <a href='http://pages.cs.wisc.edu/~remzi/Naur.pdf'>Programming as Theory Building</a>    </li></ul>"))
+      (:title post) => "Interesting Paper: &quot;Programming as Theory Building&quot;"
+      (without-new-lines-and-redundant-spaces
+        (:content post)) => "I've just read this great paper by <a href='https://en.wikipedia.org/wiki/Peter_Naur'>Peter Naur</a><ul> <li> <a href='http://pages.cs.wisc.edu/~remzi/Naur.pdf'>Programming as Theory Building</a> </li></ul>"))
 
   (fact
     "it generates a listened to podcast post"

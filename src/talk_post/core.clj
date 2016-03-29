@@ -1,6 +1,24 @@
 (ns talk-post.core
-  (:require [selmer.parser :as parser]
-            [clojure.string :as string]))
+  (:require
+    [selmer.parser :as parser]
+    [clojure.string :as string]
+    [hiccup.core]
+    [hiccup.util]
+    [hiccup.element]))
+
+(defn- format-authors-links [authors-links]
+  (clojure.string/replace
+    (str
+      (clojure.string/join
+        ", " (cons (first authors-links) (butlast (rest authors-links))))
+      (if-let [last-link (last (rest authors-links))]
+        (str " and " last-link)
+        ""))
+    #"\"" "'"))
+
+(defn- author-links [authors]
+  (for [{:keys [name url]} authors]
+    (hiccup.core/html (hiccup.element/link-to url name))))
 
 (defn- generate-title [{:keys [title thing]}]
   (parser/render
@@ -10,10 +28,14 @@
 (defmulti ^:private generate-content :thing)
 
 (defmethod ^:private generate-content "paper" [data]
-  (parser/render-file "post_template.html" data))
+  (parser/render-file
+    "post_template.html"
+    (assoc data :authors-links (format-authors-links (author-links (:authors data))))))
 
 (defmethod ^:private generate-content "talk" [data]
-  (parser/render-file "post_template.html" data))
+  (parser/render-file
+    "post_template.html"
+    (assoc data :authors-links (format-authors-links (author-links (:authors data))))))
 
 (defmethod ^:private generate-content "podcast" [data]
   (parser/render-file "podcast_post_template.html" data))
