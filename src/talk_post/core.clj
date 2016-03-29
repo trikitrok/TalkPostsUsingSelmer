@@ -5,7 +5,7 @@
     [hiccup.core]
     [hiccup.element]))
 
-(defn- format-authors-links [authors-links]
+(defn- format-people-links [authors-links]
   (clojure.string/replace
     (str
       (clojure.string/join
@@ -15,7 +15,7 @@
         ""))
     #"\"" "'"))
 
-(defn- author-links [authors]
+(defn- people-links [authors]
   (for [{:keys [name url]} authors]
     (hiccup.core/html (hiccup.element/link-to url name))))
 
@@ -32,7 +32,7 @@
 (defmethod ^:private generate-content :default [data]
   (parser/render-file
     "post_template.html"
-    (assoc data :authors-links (format-authors-links (author-links (:authors data))))))
+    (assoc data :authors-links (format-people-links (people-links (:authors data))))))
 
 (defn- generate-post [post-data]
   {:content (generate-content post-data)
