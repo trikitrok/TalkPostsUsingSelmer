@@ -15,7 +15,8 @@
     "it generates a watched talk post"
 
     (let
-      [post (generate-talk-post
+      [post (generate-post
+              :thing "talk"
               :adjective "wonderful"
               :authors [{:url "http://nestorsalceda.com/blog/"
                          :name "Nestor Salceda"}]
@@ -29,7 +30,8 @@
     "it generates a watched talk post with several authors"
 
     (let
-      [post (generate-talk-post
+      [post (generate-post
+              :thing "talk"
               :adjective "wonderful"
               :authors [{:url "http://swannodette.github.io/"
                          :name "David Nolen"}
@@ -44,7 +46,8 @@
   (fact
     "it generates a read paper post"
 
-    (let [post (generate-paper-post
+    (let [post (generate-post
+                 :thing "paper"
                  :adjective "great"
                  :authors [{:url "https://en.wikipedia.org/wiki/Peter_Naur"
                             :name "Peter Naur"}]
@@ -57,7 +60,8 @@
   (fact
     "it generates a listened to podcast post"
 
-    (generate-podcast-post
+    (generate-post
+      :thing "podcast"
       :adjective "great"
       :all-podcasts-url "https://devchat.tv/ruby-rogues"
       :all-podcasts-name "Ruby Rogues"
@@ -67,7 +71,8 @@
     => {:title "Interesting Podcast: &quot;Ruby Antipatterns&quot;"
         :content "I've just listened to this great\n<a href='https://devchat.tv/ruby-rogues'>Ruby Rogues</a> podcast\n\n\ntalking about antipatterns in Ruby:\n\n<ul>\n    <li>\n        <a href='https://devchat.tv/ruby-rogues/032-rr-ruby-antipatterns'>Ruby Antipatterns</a>\n    </li>\n</ul>"})
 
-  (generate-podcast-post
+  (generate-post
+    :thing "podcast"
     :adjective "great"
     :all-podcasts-url "https://devchat.tv/ruby-rogues"
     :all-podcasts-name "Ruby Rogues"

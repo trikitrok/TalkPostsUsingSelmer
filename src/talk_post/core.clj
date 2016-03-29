@@ -8,7 +8,9 @@
 (defn- join-people-links [people-links]
   (str
     (clojure.string/join
-      ", " (cons (first people-links) (butlast (rest people-links))))
+      ", "
+      (cons (first people-links)
+            (butlast (rest people-links))))
     (if-let [last-link (last (rest people-links))]
       (str " and " last-link)
       "")))
@@ -28,31 +30,23 @@
     "Interesting {{thing}}: &quot;{{title}}&quot;"
     {:thing (string/capitalize thing) :title title}))
 
+(defn- render-post-template [data]
+  (let [author-links (format-people-links (people-links (:authors data)))]
+    (parser/render-file
+      "post_template.html"
+      (assoc data :authors-links author-links))))
+
 (defmulti ^:private generate-content :thing)
 
 (defmethod ^:private generate-content "podcast" [data]
   (parser/render-file "podcast_post_template.html" data))
 
-(defmethod ^:private generate-content :default [data]
-  (parser/render-file
-    "post_template.html"
-    (assoc data :authors-links (format-people-links (people-links (:authors data))))))
+(defmethod ^:private generate-content "paper" [data]
+  (render-post-template (assoc data :verb "read")))
 
-(defn- generate-post [post-data]
+(defmethod ^:private generate-content "talk" [data]
+  (render-post-template (assoc data :verb "watched")))
+
+(defn generate-post [& {:as post-data}]
   {:content (generate-content post-data)
    :title (generate-title post-data)})
-
-(defn generate-talk-post [& {:as talk-data}]
-  (-> talk-data
-      (merge {:verb "watched" :thing "talk"})
-      generate-post))
-
-(defn generate-paper-post [& {:as paper-data}]
-  (-> paper-data
-      (merge {:verb "read" :thing "paper"})
-      generate-post))
-
-(defn generate-podcast-post [& {:as podcast-data}]
-  (-> podcast-data
-      (merge {:thing "podcast"})
-      generate-post))
