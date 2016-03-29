@@ -3,7 +3,6 @@
     [selmer.parser :as parser]
     [clojure.string :as string]
     [hiccup.core]
-    [hiccup.util]
     [hiccup.element]))
 
 (defn- format-authors-links [authors-links]
@@ -27,18 +26,13 @@
 
 (defmulti ^:private generate-content :thing)
 
-(defmethod ^:private generate-content "paper" [data]
-  (parser/render-file
-    "post_template.html"
-    (assoc data :authors-links (format-authors-links (author-links (:authors data))))))
-
-(defmethod ^:private generate-content "talk" [data]
-  (parser/render-file
-    "post_template.html"
-    (assoc data :authors-links (format-authors-links (author-links (:authors data))))))
-
 (defmethod ^:private generate-content "podcast" [data]
   (parser/render-file "podcast_post_template.html" data))
+
+(defmethod ^:private generate-content :default [data]
+  (parser/render-file
+    "post_template.html"
+    (assoc data :authors-links (format-authors-links (author-links (:authors data))))))
 
 (defn- generate-post [post-data]
   {:content (generate-content post-data)
