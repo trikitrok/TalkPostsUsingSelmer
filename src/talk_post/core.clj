@@ -5,19 +5,23 @@
     [hiccup.core]
     [hiccup.element]))
 
-(defn- format-people-links [authors-links]
-  (clojure.string/replace
-    (str
-      (clojure.string/join
-        ", " (cons (first authors-links) (butlast (rest authors-links))))
-      (if-let [last-link (last (rest authors-links))]
-        (str " and " last-link)
-        ""))
-    #"\"" "'"))
+(defn- join-people-links [people-links]
+  (str
+    (clojure.string/join
+      ", " (cons (first people-links) (butlast (rest people-links))))
+    (if-let [last-link (last (rest people-links))]
+      (str " and " last-link)
+      "")))
 
-(defn- people-links [authors]
-  (for [{:keys [name url]} authors]
-    (hiccup.core/html (hiccup.element/link-to url name))))
+(defn- format-people-links [people-links]
+  (->> people-links
+       (map #(clojure.string/replace % #"\"" "'"))
+       join-people-links))
+
+(defn- people-links [people]
+  (for [{:keys [name url]} people]
+    (hiccup.core/html
+      (hiccup.element/link-to url name))))
 
 (defn- generate-title [{:keys [title thing]}]
   (parser/render
