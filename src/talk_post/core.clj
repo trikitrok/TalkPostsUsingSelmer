@@ -42,10 +42,16 @@
   (parser/render-file "podcast_post_template.html" data))
 
 (defmethod ^:private generate-content "paper" [data]
-  (render-post-template (assoc data :verb "read")))
+  (render-post-template (merge data {:verb "read"
+                                     :preposition "by"})))
 
 (defmethod ^:private generate-content "talk" [data]
-  (render-post-template (assoc data :verb "watched")))
+  (render-post-template (merge data {:verb "watched"
+                                     :preposition "by"})))
+
+(defmethod ^:private generate-content "interview" [data]
+  (render-post-template (merge data {:verb "watched"
+                                     :preposition "with"})))
 
 (defn generate-post [& {:as post-data}]
   {:content (generate-content post-data)

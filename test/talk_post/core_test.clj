@@ -69,17 +69,28 @@
       :url "https://devchat.tv/ruby-rogues/032-rr-ruby-antipatterns"
       :title "Ruby Antipatterns")
     => {:title "Interesting Podcast: &quot;Ruby Antipatterns&quot;"
-        :content "I've just listened to this great\n<a href='https://devchat.tv/ruby-rogues'>Ruby Rogues</a> podcast\n\n\ntalking about antipatterns in Ruby:\n\n<ul>\n    <li>\n        <a href='https://devchat.tv/ruby-rogues/032-rr-ruby-antipatterns'>Ruby Antipatterns</a>\n    </li>\n</ul>"})
+        :content "I've just listened to this great\n<a href='https://devchat.tv/ruby-rogues'>Ruby Rogues</a> podcast\n\n\ntalking about antipatterns in Ruby:\n\n<ul>\n    <li>\n        <a href='https://devchat.tv/ruby-rogues/032-rr-ruby-antipatterns'>Ruby Antipatterns</a>\n    </li>\n</ul>"}
 
-  (generate-post
-    :thing "podcast"
-    :adjective "great"
-    :all-podcasts-url "https://devchat.tv/ruby-rogues"
-    :all-podcasts-name "Ruby Rogues"
-    :topic "TDD and testing"
-    :guest-name "Noel Rappin"
-    :guest-url "http://www.noelrappin.com"
-    :url "https://devchat.tv/ruby-rogues/185-rr-rails-4-test-prescriptions-with-noel-rappin"
-    :title "Rails 4 Test Prescriptions with Noel Rappin")
-  => {:title "Interesting Podcast: &quot;Rails 4 Test Prescriptions with Noel Rappin&quot;"
-      :content "I've just listened to this great\n<a href='https://devchat.tv/ruby-rogues'>Ruby Rogues</a> podcast\n\nwith <a href='http://www.noelrappin.com'>Noel Rappin</a>\n\n\ntalking about TDD and testing:\n\n<ul>\n    <li>\n        <a href='https://devchat.tv/ruby-rogues/185-rr-rails-4-test-prescriptions-with-noel-rappin'>Rails 4 Test Prescriptions with Noel Rappin</a>\n    </li>\n</ul>"})
+    (generate-post
+      :thing "podcast"
+      :adjective "great"
+      :all-podcasts-url "https://devchat.tv/ruby-rogues"
+      :all-podcasts-name "Ruby Rogues"
+      :topic "TDD and testing"
+      :guest-name "Noel Rappin"
+      :guest-url "http://www.noelrappin.com"
+      :url "https://devchat.tv/ruby-rogues/185-rr-rails-4-test-prescriptions-with-noel-rappin"
+      :title "Rails 4 Test Prescriptions with Noel Rappin")
+    => {:title "Interesting Podcast: &quot;Rails 4 Test Prescriptions with Noel Rappin&quot;"
+        :content "I've just listened to this great\n<a href='https://devchat.tv/ruby-rogues'>Ruby Rogues</a> podcast\n\nwith <a href='http://www.noelrappin.com'>Noel Rappin</a>\n\n\ntalking about TDD and testing:\n\n<ul>\n    <li>\n        <a href='https://devchat.tv/ruby-rogues/185-rr-rails-4-test-prescriptions-with-noel-rappin'>Rails 4 Test Prescriptions with Noel Rappin</a>\n    </li>\n</ul>"})
+
+  (fact
+    "it generates a watched interview post"
+    (generate-post
+      :thing "interview"
+      :adjective "wonderful"
+      :authors [{:url "http://www.natpryce.com/"
+                 :name "Nat Pryce"}]
+      :url "https://www.youtube.com/watch?v=VDWZ85Cggn0"
+      :title "TDD is evolving")
+    => {:content "I've just watched this wonderful interview with <a href='http://www.natpryce.com/'>Nat Pryce</a>\n<ul>\n    <li>\n        <a href='https://www.youtube.com/watch?v=VDWZ85Cggn0'>TDD is evolving</a>\n    </li>\n</ul>", :title "Interesting Interview: &quot;TDD is evolving&quot;"}))
