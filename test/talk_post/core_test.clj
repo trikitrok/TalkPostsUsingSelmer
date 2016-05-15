@@ -69,7 +69,10 @@
       :url "https://devchat.tv/ruby-rogues/032-rr-ruby-antipatterns"
       :title "Ruby Antipatterns")
     => {:title "Interesting Podcast: &quot;Ruby Antipatterns&quot;"
-        :content "I've just listened to this great\n<a href='https://devchat.tv/ruby-rogues'>Ruby Rogues</a> podcast\n\n\ntalking about antipatterns in Ruby:\n\n<ul>\n    <li>\n        <a href='https://devchat.tv/ruby-rogues/032-rr-ruby-antipatterns'>Ruby Antipatterns</a>\n    </li>\n</ul>"}
+        :content "I've just listened to this great\n<a href='https://devchat.tv/ruby-rogues'>Ruby Rogues</a> podcast\n\n\ntalking about antipatterns in Ruby:\n\n<ul>\n    <li>\n        <a href='https://devchat.tv/ruby-rogues/032-rr-ruby-antipatterns'>Ruby Antipatterns</a>\n    </li>\n</ul>"})
+
+  (fact
+    "it generates a listened to podcast with guest post"
 
     (generate-post
       :thing "podcast"
