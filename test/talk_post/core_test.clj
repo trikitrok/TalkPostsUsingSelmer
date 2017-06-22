@@ -13,7 +13,6 @@
 
   (fact
     "it generates a watched talk post"
-
     (let
       [post (generate-post
               :thing "talk"
@@ -28,7 +27,6 @@
 
   (fact
     "it generates a watched talk post with several authors"
-
     (let
       [post (generate-post
               :thing "talk"
@@ -45,7 +43,6 @@
 
   (fact
     "it generates a read paper post"
-
     (let [post (generate-post
                  :thing "paper"
                  :adjective "great"
@@ -59,12 +56,11 @@
 
   (fact
     "it generates a listened to podcast post"
-
     (generate-post
       :thing "podcast"
       :adjective "great"
-      :all-podcasts-url "https://devchat.tv/ruby-rogues"
-      :all-podcasts-name "Ruby Rogues"
+      :all-url "https://devchat.tv/ruby-rogues"
+      :all-name "Ruby Rogues"
       :topic "antipatterns in Ruby"
       :url "https://devchat.tv/ruby-rogues/032-rr-ruby-antipatterns"
       :title "Ruby Antipatterns")
@@ -73,12 +69,11 @@
 
   (fact
     "it generates a listened to podcast with guest post"
-
     (generate-post
       :thing "podcast"
       :adjective "great"
-      :all-podcasts-url "https://devchat.tv/ruby-rogues"
-      :all-podcasts-name "Ruby Rogues"
+      :all-url "https://devchat.tv/ruby-rogues"
+      :all-name "Ruby Rogues"
       :topic "TDD and testing"
       :guest-name "Noel Rappin"
       :guest-url "http://www.noelrappin.com"
@@ -88,7 +83,21 @@
         :content "I've just listened to this great\n<a href='https://devchat.tv/ruby-rogues'>Ruby Rogues</a> podcast\n\nwith <a href='http://www.noelrappin.com'>Noel Rappin</a>\n\n\ntalking about TDD and testing:\n\n<ul>\n    <li>\n        <a href='https://devchat.tv/ruby-rogues/185-rr-rails-4-test-prescriptions-with-noel-rappin'>Rails 4 Test Prescriptions with Noel Rappin</a>\n    </li>\n</ul>"})
 
   (fact
-    "it generates a watched interview post"
+    "it generates a watched webcast with guest post"
+    (generate-post
+      :thing "webcast"
+      :adjective "great"
+      :all-url "https://devchat.tv/ruby-rogues"
+      :all-name "Ruby Rogues"
+      :topic "TDD and testing"
+      :guest-name "Noel Rappin"
+      :guest-url "http://www.noelrappin.com"
+      :url "https://devchat.tv/ruby-rogues/185-rr-rails-4-test-prescriptions-with-noel-rappin"
+      :title "Rails 4 Test Prescriptions with Noel Rappin")
+    => {:title "Interesting Webcast: &quot;Rails 4 Test Prescriptions with Noel Rappin&quot;"
+        :content "I've just watched this great\n<a href='https://devchat.tv/ruby-rogues'>Ruby Rogues</a> webcast\n\nwith <a href='http://www.noelrappin.com'>Noel Rappin</a>\n\n\ntalking about TDD and testing:\n\n<ul>\n    <li>\n        <a href='https://devchat.tv/ruby-rogues/185-rr-rails-4-test-prescriptions-with-noel-rappin'>Rails 4 Test Prescriptions with Noel Rappin</a>\n    </li>\n</ul>"})
+
+  (fact "it generates a watched interview post"
     (generate-post
       :thing "interview"
       :adjective "wonderful"

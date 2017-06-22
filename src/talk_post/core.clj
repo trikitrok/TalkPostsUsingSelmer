@@ -39,7 +39,14 @@
 (defmulti ^:private generate-content :thing)
 
 (defmethod ^:private generate-content "podcast" [data]
-  (parser/render-file "podcast_post_template.html" data))
+  (parser/render-file "podcast_post_template.html"
+                      (merge data {:verb "listened to"
+                                   :preposition "with"})))
+
+(defmethod ^:private generate-content "webcast" [data]
+  (parser/render-file "podcast_post_template.html"
+                      (merge data {:verb "watched"
+                                   :preposition "with"})))
 
 (defmethod ^:private generate-content "paper" [data]
   (render-post-template (merge data {:verb "read"
