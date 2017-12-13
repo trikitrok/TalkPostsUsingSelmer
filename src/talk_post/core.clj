@@ -60,6 +60,11 @@
   (render-post-template (merge data {:verb "watched"
                                      :preposition "with"})))
 
+(defmethod ^:private generate-content "panel" [data]
+  (render-post-template (merge data {:thing "panel discussion"
+                                     :verb "watched"
+                                     :preposition "with"})))
+
 (defn generate-post [& {:as post-data}]
   {:content (generate-content post-data)
    :title (generate-title post-data)})

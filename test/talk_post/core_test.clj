@@ -105,4 +105,26 @@
                  :name "Nat Pryce"}]
       :url "https://www.youtube.com/watch?v=VDWZ85Cggn0"
       :title "TDD is evolving")
-    => {:content "I've just watched this wonderful interview with <a href='http://www.natpryce.com/'>Nat Pryce</a>\n<ul>\n    <li>\n        <a href='https://www.youtube.com/watch?v=VDWZ85Cggn0'>TDD is evolving</a>\n    </li>\n</ul>", :title "Interesting Interview: &quot;TDD is evolving&quot;"}))
+    => {:content "I've just watched this wonderful interview with <a href='http://www.natpryce.com/'>Nat Pryce</a>\n<ul>\n    <li>\n        <a href='https://www.youtube.com/watch?v=VDWZ85Cggn0'>TDD is evolving</a>\n    </li>\n</ul>", :title "Interesting Interview: &quot;TDD is evolving&quot;"})
+
+  (fact
+    "it generates a watched panel post"
+    (let
+      [post (generate-post
+              :thing "panel"
+              :adjective "very interesting"
+              :authors [{:url "https://yogthos.net/"
+                         :name "Dmitri Sotnikov"}
+                        {:url "https://github.com/kamituel"
+                         :name "Kamil Leszczuk"}
+                        {:url "https://twitter.com/matthiasnehlsen?lang=en"
+                         :name "Matthias Nehlsen"}
+                        {:url "https://twitter.com/ohpauleez?lang=en"
+                         :name "Paul deGrandis"}
+                        {:url "https://twitter.com/ordnungswprog?lang=en"
+                         :name "Philipp Meier"}]
+              :url "https://www.youtube.com/watch?v=JKoaG4kSyxs"
+              :title "Clojure Remote Panel: Web Development in Clojure")]
+      (:title post) => "Interesting Panel: &quot;Clojure Remote Panel: Web Development in Clojure&quot;"
+      (without-new-lines-and-redundant-spaces
+        (:content post)) => "I've just watched this very interesting panel discussion with <a href='https://yogthos.net/'>Dmitri Sotnikov</a>, <a href='https://github.com/kamituel'>Kamil Leszczuk</a>, <a href='https://twitter.com/matthiasnehlsen?lang=en'>Matthias Nehlsen</a>, <a href='https://twitter.com/ohpauleez?lang=en'>Paul deGrandis</a> and <a href='https://twitter.com/ordnungswprog?lang=en'>Philipp Meier</a><ul> <li> <a href='https://www.youtube.com/watch?v=JKoaG4kSyxs'>Clojure Remote Panel: Web Development in Clojure</a> </li></ul>")))
