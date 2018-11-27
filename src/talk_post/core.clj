@@ -30,45 +30,41 @@
     "Interesting {{thing}}: &quot;{{title}}&quot;"
     {:thing (string/capitalize thing) :title title}))
 
-(defn- render-post-template [data]
-  (let [author-links (format-people-links (people-links (:authors data)))]
-    (parser/render-file
-      "post_template.html"
-      (assoc data :authors-links author-links))))
+(def ^:private post-type-data-variations
+  {"paper" {:verb "read"
+            :preposition "by"}
+   "talk" {:verb "watched"
+           :preposition "by"}
+   "screencast" {:verb "watched"
+                 :preposition "by"}
+   "interview" {:verb "watched"
+                :preposition "with"}
+   "panel" {:thing "panel discussion"
+            :verb "watched"
+            :preposition "with"}
+   "podcast" {:verb "listened to"
+              :preposition "with"}
+   "webcast" {:verb "watched"
+              :preposition "with"}})
 
-(defmulti ^:private generate-content :thing)
+(defn- get-template [{:keys [thing]}]
+  (if (contains? #{"podcast" "webcast"} thing)
+    "podcast_post_template.html"
+    "post_template.html"))
 
-(defmethod ^:private generate-content "podcast" [data]
-  (parser/render-file "podcast_post_template.html"
-                      (merge data {:verb "listened to"
-                                   :preposition "with"})))
+(defn- extract-authors [post]
+  (format-people-links (people-links (:authors post))))
 
-(defmethod ^:private generate-content "webcast" [data]
-  (parser/render-file "podcast_post_template.html"
-                      (merge data {:verb "watched"
-                                   :preposition "with"})))
+(defn- fill-template [{:keys [thing] :as post}]
+  (-> post
+      (merge (get post-type-data-variations thing))
+      (assoc :authors-links (extract-authors post))))
 
-(defmethod ^:private generate-content "paper" [data]
-  (render-post-template (merge data {:verb "read"
-                                     :preposition "by"})))
+(defn- generate-content [post]
+  (parser/render-file
+    (get-template post)
+    (fill-template post)))
 
-(defmethod ^:private generate-content "talk" [data]
-  (render-post-template (merge data {:verb "watched"
-                                     :preposition "by"})))
-
-(defmethod ^:private generate-content "screencast" [data]
-  (render-post-template (merge data {:verb "watched"
-                                     :preposition "by"})))
-
-(defmethod ^:private generate-content "interview" [data]
-  (render-post-template (merge data {:verb "watched"
-                                     :preposition "with"})))
-
-(defmethod ^:private generate-content "panel" [data]
-  (render-post-template (merge data {:thing "panel discussion"
-                                     :verb "watched"
-                                     :preposition "with"})))
-
-(defn generate-post [& {:as post-data}]
-  {:content (generate-content post-data)
-   :title (generate-title post-data)})
+(defn generate-post [& {:as post}]
+  {:content (generate-content post)
+   :title (generate-title post)})
