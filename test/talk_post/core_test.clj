@@ -127,4 +127,18 @@
               :title "Clojure Remote Panel: Web Development in Clojure")]
       (:title post) => "Interesting Panel: &quot;Clojure Remote Panel: Web Development in Clojure&quot;"
       (without-new-lines-and-redundant-spaces
-        (:content post)) => "I've just watched this very interesting panel discussion with <a href='https://yogthos.net/'>Dmitri Sotnikov</a>, <a href='https://github.com/kamituel'>Kamil Leszczuk</a>, <a href='https://twitter.com/matthiasnehlsen?lang=en'>Matthias Nehlsen</a>, <a href='https://twitter.com/ohpauleez?lang=en'>Paul deGrandis</a> and <a href='https://twitter.com/ordnungswprog?lang=en'>Philipp Meier</a><ul> <li> <a href='https://www.youtube.com/watch?v=JKoaG4kSyxs'>Clojure Remote Panel: Web Development in Clojure</a> </li></ul>")))
+        (:content post)) => "I've just watched this very interesting panel discussion with <a href='https://yogthos.net/'>Dmitri Sotnikov</a>, <a href='https://github.com/kamituel'>Kamil Leszczuk</a>, <a href='https://twitter.com/matthiasnehlsen?lang=en'>Matthias Nehlsen</a>, <a href='https://twitter.com/ohpauleez?lang=en'>Paul deGrandis</a> and <a href='https://twitter.com/ordnungswprog?lang=en'>Philipp Meier</a><ul> <li> <a href='https://www.youtube.com/watch?v=JKoaG4kSyxs'>Clojure Remote Panel: Web Development in Clojure</a> </li></ul>"))
+
+  (fact
+    "it generates a watched screencast post"
+    (let
+      [post (generate-post
+              :thing "screencast"
+              :adjective "great"
+              :authors [{:url "https://twitter.com/emilybache?lang=en"
+                         :name "Emily Bache"}]
+              :url "https://www.youtube.com/watch?v=zyM2Ep28ED8"
+              :title "Introducing the Gilded Rose kata and writing test cases using Approval Tests")]
+      (:title post) => "Interesting Screencast: &quot;Introducing the Gilded Rose kata and writing test cases using Approval Tests&quot;"
+      (without-new-lines-and-redundant-spaces
+        (:content post)) => "I've just watched this great screencast by <a href='https://twitter.com/emilybache?lang=en'>Emily Bache</a><ul> <li> <a href='https://www.youtube.com/watch?v=zyM2Ep28ED8'>Introducing the Gilded Rose kata and writing test cases using Approval Tests</a> </li></ul>")))

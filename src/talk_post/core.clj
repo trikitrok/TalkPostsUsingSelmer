@@ -56,6 +56,10 @@
   (render-post-template (merge data {:verb "watched"
                                      :preposition "by"})))
 
+(defmethod ^:private generate-content "screencast" [data]
+  (render-post-template (merge data {:verb "watched"
+                                     :preposition "by"})))
+
 (defmethod ^:private generate-content "interview" [data]
   (render-post-template (merge data {:verb "watched"
                                      :preposition "with"})))
