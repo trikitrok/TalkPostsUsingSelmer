@@ -22,8 +22,10 @@
 
 (defn- people-links [people]
   (for [{:keys [name url]} people]
-    (hiccup.core/html
-      (hiccup.element/link-to url name))))
+    (if (nil? url)
+      name
+      (hiccup.core/html
+        (hiccup.element/link-to url name)))))
 
 (defn- generate-title [{:keys [title thing]}]
   (parser/render
@@ -39,13 +41,17 @@
                  :preposition "by"}
    "interview" {:verb "watched"
                 :preposition "with"}
+   "documentary film" {:verb "watched"
+                       :preposition "by"}
    "panel" {:thing "panel discussion"
             :verb "watched"
             :preposition "with"}
    "podcast" {:verb "listened to"
               :preposition "with"}
    "webcast" {:verb "watched"
-              :preposition "with"}})
+              :preposition "with"}
+   "conversation" {:verb "watched"
+                   :preposition "between"}})
 
 (defn- get-template [{:keys [thing]}]
   (if (contains? #{"podcast" "webcast"} thing)

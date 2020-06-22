@@ -141,4 +141,46 @@
               :title "Introducing the Gilded Rose kata and writing test cases using Approval Tests")]
       (:title post) => "Interesting Screencast: &quot;Introducing the Gilded Rose kata and writing test cases using Approval Tests&quot;"
       (without-new-lines-and-redundant-spaces
-        (:content post)) => "I've just watched this great screencast by <a href='https://twitter.com/emilybache?lang=en'>Emily Bache</a><ul> <li> <a href='https://www.youtube.com/watch?v=zyM2Ep28ED8'>Introducing the Gilded Rose kata and writing test cases using Approval Tests</a> </li></ul>")))
+        (:content post)) => "I've just watched this great screencast by <a href='https://twitter.com/emilybache?lang=en'>Emily Bache</a><ul> <li> <a href='https://www.youtube.com/watch?v=zyM2Ep28ED8'>Introducing the Gilded Rose kata and writing test cases using Approval Tests</a> </li></ul>"))
+
+  (fact
+    "it generates a watched interview post"
+    (let
+      [post (generate-post
+              :thing "conversation"
+              :adjective "very interesting"
+              :authors [{:url "https://en.wikipedia.org/wiki/Brian_Eno"
+                         :name "Brian Eno"}
+                        {:url "https://en.wikipedia.org/wiki/Yanis_Varoufakis"
+                         :name "Yanis Varoufakis"}]
+              :all-url "https://www.youtube.com/channel/UCnMk-6Brd8rVEKWSWkwsWUg"
+              :all-name "DiEM25 TV"
+              :url "https://www.youtube.com/watch?v=J7ei1-rYHMU"
+              :title "Reflecting on our Post-Virus World")]
+      (:title post) => "Interesting Conversation: &quot;Reflecting on our Post-Virus World&quot;"
+      (without-new-lines-and-redundant-spaces
+        (:content post)) => "I've just watched this very interesting conversation between <a href='https://en.wikipedia.org/wiki/Brian_Eno'>Brian Eno</a> and <a href='https://en.wikipedia.org/wiki/Yanis_Varoufakis'>Yanis Varoufakis</a> on <a href='https://www.youtube.com/channel/UCnMk-6Brd8rVEKWSWkwsWUg'>DiEM25 TV</a><ul> <li> <a href='https://www.youtube.com/watch?v=J7ei1-rYHMU'>Reflecting on our Post-Virus World</a> </li></ul>"))
+
+  (fact
+    "it generates a watched documentary film"
+    (let
+      [post (generate-post
+              :thing "documentary film"
+              :adjective "great"
+              :authors [{:url "https://en.wikipedia.org/wiki/Iris_Zaki"
+                         :name "Iris Zaki"}]
+              :url "https://www.youtube.com/watch?v=Eac1l1ozfLc"
+              :title "What It’s Like to Grow Up in an Israeli Settlement")]
+      (:title post) => "Interesting Documentary film: &quot;What It’s Like to Grow Up in an Israeli Settlement&quot;"
+      (without-new-lines-and-redundant-spaces
+        (:content post)) => "I've just watched this great documentary film by <a href='https://en.wikipedia.org/wiki/Iris_Zaki'>Iris Zaki</a><ul> <li> <a href='https://www.youtube.com/watch?v=Eac1l1ozfLc'>What It’s Like to Grow Up in an Israeli Settlement</a> </li></ul>"))
+
+  (fact "it adds links only when an url is given"
+        (generate-post
+          :thing "interview"
+          :adjective "short interesting"
+          :authors [{:name "Jenny Quillen"}]
+          :url "https://www.youtube.com/watch?v=ad5XAPgKJoM&app=desktop"
+          :title "History from A Pattern Language to the Nature of Order")
+        => {:content "I've just watched this short interesting interview with Jenny Quillen\n<ul>\n    <li>\n        <a href='https://www.youtube.com/watch?v=ad5XAPgKJoM&amp;app=desktop'>History from A Pattern Language to the Nature of Order</a>\n    </li>\n</ul>"
+            :title "Interesting Interview: &quot;History from A Pattern Language to the Nature of Order&quot;"}))
