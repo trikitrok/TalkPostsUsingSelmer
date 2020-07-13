@@ -74,3 +74,10 @@
 (defn generate-post [& {:as post}]
   {:content (generate-content post)
    :title (generate-title post)})
+
+(defn generate! [& {:as post}]
+  (let [post (apply generate-post (->> post vec (apply concat)))]
+    (println (:title post))
+    (println)
+    (println (:content post))))
+

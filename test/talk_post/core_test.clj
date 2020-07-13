@@ -175,7 +175,7 @@
       (without-new-lines-and-redundant-spaces
         (:content post)) => "I've just watched this great documentary film by <a href='https://en.wikipedia.org/wiki/Iris_Zaki'>Iris Zaki</a><ul> <li> <a href='https://www.youtube.com/watch?v=Eac1l1ozfLc'>What It’s Like to Grow Up in an Israeli Settlement</a> </li></ul>"))
 
-  (fact "it adds links only when an url is given"
+  (fact "it adds authors even when no url is given"
         (generate-post
           :thing "interview"
           :adjective "short interesting"
