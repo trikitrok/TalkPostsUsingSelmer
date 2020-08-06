@@ -61,10 +61,16 @@
 (defn- extract-authors [post]
   (format-people-links (people-links (:authors post))))
 
+(defn- remove-authors-data-if-no-authors [post]
+  (if (empty? (:authors-links post))
+    (dissoc (assoc post :preposition "") :authors-links)
+    post))
+
 (defn- fill-template [{:keys [thing] :as post}]
   (-> post
       (merge (get post-type-data-variations thing))
-      (assoc :authors-links (extract-authors post))))
+      (assoc :authors-links (extract-authors post))
+      (remove-authors-data-if-no-authors)))
 
 (defn- generate-content [post]
   (parser/render-file

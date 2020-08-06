@@ -183,4 +183,13 @@
           :url "https://www.youtube.com/watch?v=ad5XAPgKJoM&app=desktop"
           :title "History from A Pattern Language to the Nature of Order")
         => {:content "I've just watched this short interesting interview with Jenny Quillen\n<ul>\n    <li>\n        <a href='https://www.youtube.com/watch?v=ad5XAPgKJoM&amp;app=desktop'>History from A Pattern Language to the Nature of Order</a>\n    </li>\n</ul>"
-            :title "Interesting Interview: &quot;History from A Pattern Language to the Nature of Order&quot;"}))
+            :title "Interesting Interview: &quot;History from A Pattern Language to the Nature of Order&quot;"})
+
+  (fact "it removes preposition when there are no authors"
+        (generate-post
+          :thing "documentary film"
+          :adjective "great"
+          :url "https://www.youtube.com/watch?v=NxcPPnqc9HA&app=desktop"
+          :title "Seinfeld: Running with the Egg")
+        => {:content "I've just watched this great documentary film  \n<ul>\n    <li>\n        <a href='https://www.youtube.com/watch?v=NxcPPnqc9HA&amp;app=desktop'>Seinfeld: Running with the Egg</a>\n    </li>\n</ul>"
+            :title "Interesting Documentary film: &quot;Seinfeld: Running with the Egg&quot;"}))
